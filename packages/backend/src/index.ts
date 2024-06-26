@@ -1,5 +1,5 @@
 import { createBackend } from '@backstage/backend-defaults';
-import { authModuleKeycloakOIDCProvider } from './plugins/auth';
+import { authModuleKeycloakOIDCProvider, authModuleGithubProvider } from './plugins/auth';
 import { cnoeScaffolderActions } from './plugins/scaffolder';
 import { legacyPlugin } from '@backstage/backend-common';
 
@@ -8,6 +8,7 @@ const backend = createBackend();
 // core plugins
 backend.add(import('@backstage/plugin-app-backend/alpha'));
 backend.add(import('@backstage/plugin-catalog-backend/alpha'));
+backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
 backend.add(import('@backstage/plugin-proxy-backend/alpha'));
 backend.add(import('@backstage/plugin-techdocs-backend/alpha'));
 // auth plugins
@@ -31,6 +32,7 @@ backend.add(import('@roadiehq/scaffolder-backend-module-utils/new-backend'));
 backend.add(legacyPlugin('argocd', import('./plugins/argocd')));
 // cnoe plugins
 backend.add(authModuleKeycloakOIDCProvider);
+backend.add(authModuleGithubProvider);
 backend.add(cnoeScaffolderActions);
 backend.add(import('@internal/backstage-plugin-terraform-backend'));
 

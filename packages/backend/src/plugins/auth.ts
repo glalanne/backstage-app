@@ -13,6 +13,7 @@ import {
   oidcAuthenticator,
   OidcAuthResult,
 } from '@backstage/plugin-auth-backend-module-oidc-provider';
+import { githubAuthenticator } from '@backstage/plugin-auth-backend-module-github-provider';
 
 export const authModuleKeycloakOIDCProvider = createBackendModule({
   pluginId: 'auth',
@@ -56,6 +57,45 @@ export const authModuleKeycloakOIDCProvider = createBackendModule({
                   groups:
                     (info.result.fullProfile.userinfo.groups as JsonArray) ||
                     [],
+                },
+              });
+            },
+          }),
+        });
+      },
+    });
+  },
+});
+
+export const authModuleGithubProvider = createBackendModule({
+  pluginId: 'auth',
+  moduleId: 'githubProvider',
+  register(reg) {
+    reg.registerInit({
+      deps: { providers: authProvidersExtensionPoint },
+      async init({ providers }) {
+        providers.registerProvider({
+          providerId: 'github',
+          factory: createOAuthProviderFactory({
+            authenticator: githubAuthenticator,
+            async signInResolver({ result: { fullProfile } }, ctx) {
+              const userId = fullProfile.username;
+              if (!userId) {
+                throw new Error(
+                  `GitHub user profile does not contain a username`,
+                );
+              }
+
+              const userEntityRef = stringifyEntityRef({
+                kind: 'User',
+                name: userId,
+                namespace: DEFAULT_NAMESPACE,
+              });
+
+              return ctx.issueToken({
+                claims: {
+                  sub: userEntityRef,
+                  ent: [userEntityRef],
                 },
               });
             },

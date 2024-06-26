@@ -108,7 +108,7 @@ export const OverviewTable = () => {
       startedAt: val.status?.startedAt,
       finishedAt: val.status?.finishedAt,
     } as TableData;
-  })
+  }) ?? [];
 
   return (
     <Table

@@ -179,9 +179,9 @@ const overviewContent = (
   </Grid>
 );
 
-const terraFormContent = (
-  <TerraformPluginPage />
-);
+// const terraFormContent = (
+//   <TerraformPluginPage />
+// );
 
 const serviceEntityPage = (
   <EntityLayout>
