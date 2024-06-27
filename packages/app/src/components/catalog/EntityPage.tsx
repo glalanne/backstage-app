@@ -61,20 +61,29 @@ import {
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
-
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
-
+import {
+  EntityGithubPullRequestsContent,
+  EntityGithubPullRequestsOverviewCard,
+} from '@roadiehq/backstage-plugin-github-pull-requests';
 import {
   EntityArgoCDOverviewCard,
-  isArgocdAvailable
+  isArgocdAvailable,
 } from '@roadiehq/backstage-plugin-argo-cd';
 
 import {
-  EntityArgoWorkflowsOverviewCard, EntityArgoWorkflowsTemplateOverviewCard,
+  EntityArgoWorkflowsOverviewCard,
+  EntityArgoWorkflowsTemplateOverviewCard,
   isArgoWorkflowsAvailable,
 } from '@internal/plugin-argo-workflows';
-import {ApacheSparkPage, isApacheSparkAvailable} from "@internal/plugin-apache-spark";
-import { isTerraformAvailable, TerraformPluginPage } from '@internal/plugin-terraform';
+import {
+  ApacheSparkPage,
+  isApacheSparkAvailable,
+} from '@internal/plugin-apache-spark';
+import {
+  isTerraformAvailable,
+  TerraformPluginPage,
+} from '@internal/plugin-terraform';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -148,6 +157,9 @@ const overviewContent = (
     <Grid item md={6}>
       <EntityAboutCard variant="gridItem" />
     </Grid>
+    <Grid item md={6}>
+        <EntityGithubPullRequestsOverviewCard />
+      </Grid>
     <EntitySwitch>
       <EntitySwitch.Case if={e => Boolean(isArgocdAvailable(e))}>
         <Grid item md={6}>
@@ -182,7 +194,6 @@ const overviewContent = (
     <Grid item md={8} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
-
   </Grid>
 );
 
@@ -200,11 +211,19 @@ const serviceEntityPage = (
       {cicdContent}
     </EntityLayout.Route>
 
+    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+      <EntityGithubPullRequestsContent />
+    </EntityLayout.Route>
+
     <EntityLayout.Route path="/kubernetes" title="Kubernetes">
       <EntityKubernetesContent refreshIntervalMs={30000} />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/apache-spark" title="Spark" if={isApacheSparkAvailable}>
+    <EntityLayout.Route
+      path="/apache-spark"
+      title="Spark"
+      if={isApacheSparkAvailable}
+    >
       <ApacheSparkPage />
     </EntityLayout.Route>
 
@@ -244,6 +263,10 @@ const websiteEntityPage = (
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/pull-requests" title="Pull Requests">
+      <EntityGithubPullRequestsContent />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/dependencies" title="Dependencies">
