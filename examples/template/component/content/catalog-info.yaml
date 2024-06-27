@@ -1,0 +1,22 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}-ui
+  annotations:
+    argocd/app-name: ${{values.name | dump}}
+spec:
+  type: website
+  owner: ${{values.owner | dump}}
+  lifecycle: experimental
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}-api
+  annotations:
+    argocd/app-name: ${{values.name | dump}}
+spec:
+  type: service
+  owner: ${{values.owner | dump}}
+  lifecycle: experimental

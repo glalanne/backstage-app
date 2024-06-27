@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  annotations:
+    argocd/app-name: ${{values.name | dump}}
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-namespace: ${{values.name | dump}}
+
+spec:
+  type: website
+  owner: ${{values.owner | dump}}
+  lifecycle: experimental
