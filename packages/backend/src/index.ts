@@ -26,6 +26,7 @@ backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
 // other @backstage plugins
 backend.add(import('@backstage/plugin-kubernetes-backend/alpha'));
+backend.add(import('@backstage-community/plugin-azure-devops-backend'));
 // non-core plugins
 // roadie plugins
 backend.add(import('@roadiehq/scaffolder-backend-module-utils/new-backend'));
